@@ -1,5 +1,5 @@
 import React from 'react';
-import {Map, Marker, InfoWindow, Listing} from 'google-maps-react'
+import {Map, Marker, InfoWindow} from 'google-maps-react'
 
 
 class mapBar extends React.Component {
@@ -35,66 +35,70 @@ class mapBar extends React.Component {
 	}
 
 
- //  render () {
- //  return (
- //    <div>
- //      <Map google={window.google} onClick={this.onMapClicked.bind(this)}>
-	// {this.props.waypoints.map(bar => {
-	//    return (
-	//      <Marker
-	// 	 position={{
-	// 	   lat: bar.location.coordinate.latitude,
-	// 	   lng: bar.location.coordinate.longitude
-	// 	 }}
-	// 	 onClick={ this.onMarkerClick.bind(this) } 
-	// 	 name={'Current location'} >
-
-	// 	 	<InfoWindow
-	// 	 	  onClose={this.onInfoWindowClose}
-	// 	 	  marker={this.state.activeMarker}
- //        visible={this.state.showingInfoWindow}>
- //            <div>
- //              <h1>test</h1>
- //            </div>
-	// 	 	</InfoWindow>
-		 
-	// 	  </Marker>
-	//    );
-	//  })}
-
- //      </Map>
-	    
- //    </div>
- //  );
- //  }
-
   render () {
-  return (
+  	const mapStyle = {
+      height: 500,
+      width: 1600
+    };
 
-	{this.props.waypoints.map(bar => {
-	   return (
-      <Map google={window.google} onClick={this.onMapClicked.bind(this)}>
-	     <Marker
+    const mapDivStyle = {
+      border: '1px solid black',
+      display: 'table',
+      margin: '0 auto',
+    }
+
+
+  var markers = [];
+  var popups = [];
+  for (var i = 0; i < this.props.waypoints.length; i++) {
+  	var bar = this.props.waypoints[i];
+    markers.push(
+      <Marker
+
 		 position={{
 		   lat: bar.location.coordinate.latitude,
 		   lng: bar.location.coordinate.longitude
 		 }}
 		 onClick={ this.onMarkerClick.bind(this) } 
 		 name={'Current location'} />
-		 	<InfoWindow
+		 	
+    );
+
+    popups.push(
+      <InfoWindow
 		 	  onClose={this.onInfoWindowClose}
 		 	  marker={this.state.activeMarker}
         visible={this.state.showingInfoWindow}>
             <div>
               <h5>{ bar.name }</h5>
-              <p>some info..</p>
+              <span>{ bar.location.address }</span>
             </div>
-		 	</InfoWindow>
-      </Map>
-	   );
-	 })}
+		 	</InfoWindow>		 	
+    );
+  }
 
-	    
+  var places = [];
+  for (var i = 0; i < this.props.waypoints.length; i++) {
+  	places.push( markers[i] );
+  	places.push( popups[i] );
+  }
+
+  return (
+  		<div>
+        <div href="/#/directions" className="bottom select-go-to-map center-align thin">
+          <a href="/#/directions" className="to-map">Get Directions</a>
+        </div>
+  		<div className="map">
+  		<Map google={window.google}
+     style={mapStyle}
+     className = "map-styles"
+     onClick={this.onMapClicked.bind(this)}
+     >
+          { places }
+
+      </Map>
+      </div>
+      </div>
   );
   }
 };

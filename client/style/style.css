@@ -223,3 +223,11 @@ p.randombar-header {
     opacity: 1;
     max-width: 450px;
 }
+
+.bottom {
+    background-color: #ffcc80;
+}
+
+.map {
+    margin-top:0px;
+}
