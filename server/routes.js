@@ -16,7 +16,7 @@ module.exports = function (app, express) {
       failureRedirect : '#/signup'
     }));
 
-  app.use(utils.isLoggedIn);
+  // app.use(utils.isLoggedIn);
   //facebook route
 
   app.route('/')
